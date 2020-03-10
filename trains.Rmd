@@ -1,0 +1,32 @@
+---
+title: "Trains"
+author: "Jessica Wu"
+date: "3/10/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(gov.1005.data)
+library(tidyverse)
+library(infer)
+```
+
+```{r}
+
+# filter for just ppl who have been treated
+train %>%
+  filter(treatment == "Treated") %>%
+  
+# bootstrap sample with same initial size of sample which is 51
+  
+  rep_sample_n(size = 51, replace = TRUE, reps = 1000) %>%
+  summarize(avg_inc = mean(income)) %>%
+  
+# calculating the 95% CI using the percentile method
+  
+  pull(avg_inc) %>%
+  quantile(c(0.025, 0.975))
+
+```
+
