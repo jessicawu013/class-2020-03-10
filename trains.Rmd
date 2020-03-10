@@ -30,3 +30,17 @@ train %>%
 
 ```
 
+We are 95% confident that the average income of Bostonians commuters who heard people speaking Spanish on the platform is between $115,630 and $153,489
+
+```{r}
+# looking for mean income of the treated and the control, then the difference 
+# between the two
+train %>%
+  group_by(treatment) %>%
+  summarize(avg_inc = mean(income)) %>%
+  pivot_wider(names_from = treatment, values_from = avg_inc) %>%
+  mutate(inc_diff = Treated - Control)
+
+```
+
+

@@ -383,7 +383,19 @@ train %&gt;%
   pull(avg_inc) %&gt;%
   quantile(c(0.025, 0.975))</code></pre>
 <pre><code>##     2.5%    97.5% 
-## 114214.5 151618.9</code></pre>
+## 114551.5 151865.2</code></pre>
+<p>We are 95% confident that the average income of Bostonians commuters who heard people speaking Spanish on the platform is between $115,630 and $153,489</p>
+<pre class="r"><code># looking for mean income of the treated and the control, then the difference 
+# between the two
+train %&gt;%
+  group_by(treatment) %&gt;%
+  summarize(avg_inc = mean(income)) %&gt;%
+  pivot_wider(names_from = treatment, values_from = avg_inc) %&gt;%
+  mutate(inc_diff = Treated - Control)</code></pre>
+<pre><code>## # A tibble: 1 x 3
+##   Treated Control inc_diff
+##     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+## 1 132892. 148922.  -16030.</code></pre>
 
 
 
